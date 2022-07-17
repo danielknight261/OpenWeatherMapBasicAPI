@@ -5,7 +5,7 @@ function App() {
   const [data, setData] = useState({})
   const [location, setLocation] = useState ('')
 
-const url =`https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=7bfd5d49f5095f73ef7b60ef91d31b16`
+const url =`https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=7bfd5d49f5095f73ef7b60ef91d31b16`
  
  const searchLocation = (event) => {
   if (event.key === 'Enter') {
@@ -31,29 +31,34 @@ const url =`https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=
       <div className="container">
         <div className="top">
           <div className="location">
-           <p>London</p>
+           <p>{data.name}</p>
           </div>
           <div className="temp">
-           <h1>22C</h1>
+          {data.main ? <h1>{data.main.temp.toFixed()}°C</h1> : null}     {/*data.main had to be used fist because it did not like the dat.main.temp as it would not recognise the temp child. &toFixed() remove decimals */}
           </div>
           <div className="description">
-           <p>Sunny</p>
+          {data.weather ? <p>{data.weather[0].main}</p> : null}   {/* so weatehr was in an object so had to follow it similrly to temp but link to the array */}
           </div>
         </div> 
+{/*data.name undefined beans the bottom div will no show unless you types osmetig in the the enter locatin input box */}
+{data.name !== undefined &&   
+      
        <div className="bottom">
         <div className="feels">
-         <p className="bold">35C</p>
+        {data.main ? <p className="bold">{data.main.feels_like.toFixed()}</p> : null}
          <p>Feels Like</p>
         </div>
         <div className="humidity">
-         <p className="bold">20%</p>
-         <p>Humidity</p>
+        {data.main ? <p className="bold">{data.main.humidity}%</p> : null}
+        <p>Humidity</p>
         </div>  
         <div className="wind">
-         <p className="bold">5 MPH</p>
+        {data.wind ? <p className="bold">{data.wind.speed.toFixed()} MPH</p> :null}
          <p>Wind Speed</p>
         </div>  
        </div>
+      }  
+
      </div> 
     </div>
     
